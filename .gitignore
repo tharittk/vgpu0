@@ -1,3 +1,4 @@
 env/busybox*
 env/linux*
 env/qemu*
+env/rootfs*

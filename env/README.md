@@ -5,10 +5,9 @@ We need 3 things: Linux Kernel, BusyBox, and QEMU.
 # Kernel
 Get the stable linux kernel version
 
-`$ wget https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.0.5.tar.xz`
 On my Raspberry Pi 5
-
 ```
+$ wget https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.0.5.tar.xz`
 $ make defconfig
 $ make -j $(nproc)
 ```
@@ -23,9 +22,8 @@ generic kernel.
 We will go easy with building the `initrd`. We will build the root filesystem
 compress it to `.cpio` and uncomrpessed that during the kernel boot
 
-`$ wget https://busybox.net/downloads/busybox-1.36.1.tar.bz2`
-
 ```
+$ wget https://busybox.net/downloads/busybox-1.36.1.tar.bz2
 $ tar -xvf busybox-1.36.1.tar.bz2
 $ cd busybox-1.36.1`
 ```
@@ -72,8 +70,40 @@ Last step is to compress it to the ramdisk
 $ cd rootfs
 $ find . -print0 | cpio --null -ov --format=newc | gzip -9 > ../rootfs.cpio.gz
 ```
+We can test booting the kernel with 
+
+```
+qemu-system-aarch64 \
+    -M virt \
+    -cpu host -enable-kvm \
+    -kernel env/linux-7.0.3/arch/arm64/boot/Image \
+    -initrd env/rootfs.cpio.gz \
+    -append "console=ttyAMA0 root=/dev/ram rdinit=/init" \
+    -nographic \
+```
 
 # QEMU
+Since we are going to add our custom PCI device for GPU to talk to, we are going
+to build QEMU from source so that we can append our device to it.
 
+```
+$ wget https://download.qemu.org/qemu-11.0.0.tar.xz
+$ tar xvf qemu-11.0.0.tar.xz
+$ cd qemu-11.0.0
+$ mkdir build
+$ ../configure --target-list=aarch64-softmmu
+$ make -j $(nproc)
+```
+We can the test this custom build kernel with:
+
+```
+./qemu-system-aarch64 \
+    -M virt \
+    -cpu host -enable-kvm \
+    -kernel ../../linux-7.0.3/arch/arm64/boot/Image \
+    -initrd ../../rootfs.cpio.gz \
+    -append "console=ttyAMA0 root=/dev/ram rdinit=/init" \
+    -nographic \
+```
 
 
