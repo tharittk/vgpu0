@@ -1,0 +1,11 @@
+CompileFlags:
+  Remove:
+    - -mabi=lp64
+    - -march=armv8-a
+    - -mrecord-mcount
+    - -mindirect-branch=thunk-extern
+    - -fno-allow-store-data-races
+    - -fconserve-stack
+    - -mstack-protector-guard=sysreg
+    - -mstack-protector-guard-reg=sp_el0
+    - -mstack-protector-guard-offset=*

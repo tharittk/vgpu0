@@ -1,4 +1,4 @@
-/* pci device for vGPU */
+/* pci device for vgpu0 */
 #include "qemu/osdep.h"
 #include "hw/pci/pci_device.h"
 #include "hw/core/qdev-properties.h"
@@ -21,7 +21,7 @@ static void vgpu0_realize(PCIDevice *pdev, Error **errp)
 {
 	//vgpu0State *vgpu0 = VGPU0(pdev);
 	printf("VGPU0 - Realized !\n");
-}	
+}
 
 static void vgpu0_uninit(PCIDevice *pdev)
 {
@@ -45,14 +45,14 @@ static void vgpu0_instance_init(Object *obj)
 }
 
 static const TypeInfo vgpu0_info = {
-    .name          = TYPE_PCI_VGPU0_DEVICE,
-    .parent        = TYPE_PCI_DEVICE,
+    .name	   = TYPE_PCI_VGPU0_DEVICE,
+    .parent	   = TYPE_PCI_DEVICE,
     .instance_size = sizeof(vgpu0State),
     .class_init    = vgpu0_class_init,
     .instance_init = vgpu0_instance_init,
     .interfaces = (const InterfaceInfo[]) {
-        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-        { },
+	{ INTERFACE_CONVENTIONAL_PCI_DEVICE },
+	{ },
     },
 };
 

@@ -15,3 +15,9 @@
 - DECLARE_INSTANCE_CHECKER (): define a macro for somewhat ugly casting checker.
   It checks that the pointer to be cased has the expected type (our device).
 (our device).
+
+
+- platform driver vs pci driver
+  . platform driver like those for SoC peripheral is not discoverable during the boot time. Use the device tree binding concept.
+
+  . pci driver are discoverable by matching (vendor id, device id)
