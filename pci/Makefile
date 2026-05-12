@@ -33,7 +33,7 @@ qclean:
 
 KERNEL_PATH = ../env/linux-7.0.3/
 KERNEL_SRC_FILE = vgpu0-drv.c
-KERNEL_DEST_DIR = $(KERNEL_PATH)/drivers/leds/
+KERNEL_DEST_DIR = $(KERNEL_PATH)/drivers/leds/ #no more led actually
 # Strip .c to get the object name for Makefile
 KERNEL_OBJ = $(KERNEL_SRC_FILE:.c=.o)
 
